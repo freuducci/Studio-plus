@@ -8,9 +8,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-color: #000;
+            --text-color: #fff;
+            --accent-color: #D4AF37;
+            --card-bg: rgba(0, 0, 0, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-mode {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --accent-color: #D4AF37;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+        .light-mode .hero-section {
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        }
+        .light-mode .service-card,
+        .light-mode .bg-gray-900,
+        .light-mode .bg-black {
+            background-color: #f8f9fa !important;
+            color: #333333 !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+        }
+        .light-mode .text-gray-300,
+        .light-mode .text-gray-400 {
+            color: #666666 !important;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
@@ -50,11 +82,16 @@
 </head>
 <body class="bg-black text-white">
     <!-- Navigation -->
-    <nav class="bg-black bg-opacity-90 fixed w-full z-50">
+    <nav class="bg-black bg-opacity-90 fixed w-full z-50" style="background-color: var(--bg-color) !important;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 flex items-center">
                     <span class="text-gold-500 font-bold text-2xl">STUDIO<span class="text-yellow-500">+</span></span>
+                </div>
+                <div class="flex items-center">
+                    <button id="theme-toggle" class="text-xl focus:outline-none mr-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+                        <span id="theme-icon"><i class="fas fa-sun"></i></span>
+                    </button>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
@@ -492,7 +529,38 @@
         </div>
     </footer>
 
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/13056102397" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-[#128C7E] transition-colors duration-300 z-50 animate-bounce">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        // Check localStorage for theme preference, default to dark
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            document.documentElement.classList.add('light-mode');
+            themeIcon.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            document.documentElement.classList.remove('light-mode');
+            themeIcon.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            const theme = isLight ? 'light' : 'dark';
+            localStorage.setItem('theme', theme);
+            themeIcon.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            
+            // Force redraw to prevent animation glitches
+            document.body.style.visibility = 'hidden';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.visibility = 'visible';
+        });
+
         // Mobile menu toggle
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
