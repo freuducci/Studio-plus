@@ -88,11 +88,6 @@
                 <div class="flex-shrink-0 flex items-center">
                     <span class="text-gold-500 font-bold text-2xl">STUDIO<span class="text-yellow-500">+</span></span>
                 </div>
-                <div class="flex items-center">
-                    <button id="theme-toggle" class="text-xl focus:outline-none mr-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-                        <span id="theme-icon"><i class="fas fa-sun"></i></span>
-                    </button>
-                </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="#about" class="text-gray-300 hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-medium">À propos</a>
@@ -529,10 +524,40 @@
         </div>
     </footer>
 
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/13056102397" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-[#128C7E] transition-colors duration-300 z-50 animate-bounce">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Floating Buttons Container -->
+    <div class="fixed bottom-6 right-6 flex flex-col items-center space-y-4 z-50">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="opacity-0 translate-y-4 animate-fade-in-up w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-lg transition-all duration-300 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:scale-105">
+            <span id="theme-icon"><i class="fas fa-sun"></i></span>
+        </button>
+        
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/13056102397" target="_blank" class="opacity-0 translate-y-4 animate-fade-in-up bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-[#128C7E] transition-all duration-300 hover:scale-105">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <style>
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.5s ease-out forwards;
+        }
+        #theme-toggle {
+            animation-delay: 0.3s;
+        }
+        [href="https://wa.me/13056102397"] {
+            animation-delay: 0.6s;
+        }
+    </style>
 
     <script>
         // Theme toggle functionality
@@ -554,11 +579,6 @@
             const theme = isLight ? 'light' : 'dark';
             localStorage.setItem('theme', theme);
             themeIcon.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            
-            // Force redraw to prevent animation glitches
-            document.body.style.visibility = 'hidden';
-            document.body.offsetHeight; // Trigger reflow
-            document.body.style.visibility = 'visible';
         });
 
         // Mobile menu toggle
